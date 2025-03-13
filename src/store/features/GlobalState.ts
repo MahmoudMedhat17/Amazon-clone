@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 
 
 export const globalState = createSlice({
-    name:"globalStateReducer",
+    name:"global",
     initialState:{
         user:null,
         cart:[]
@@ -18,5 +18,3 @@ export const globalState = createSlice({
 
 export const { setUser } = globalState.actions;
 export default globalState.reducer;
-
-

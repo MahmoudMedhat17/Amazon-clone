@@ -11,11 +11,30 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ShoppingCart } from 'lucide-react';
-
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import {signOut} from "firebase/auth";
+import {auth} from "../../../firebase";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
 const Header = () => {
+  const user = useSelector((state:RootState)=> state.global.user);
+
+  function notify() {
+    toast("User is already created");
+  };
+
+
+  const checkSignOut = () =>{
+    if(user){
+    signOut(auth).then(()=>{
+      toast("User sign out successfully.");
+    })
+  }
+  };
+
   return (
     <header className="h-20 flex items-center bg-gray-950 px-4 sm:px-10">
       <nav className="flex items-center gap-2 w-full">
@@ -29,10 +48,10 @@ const Header = () => {
           </Button>
         </div>
         <div className="hidden sm:flex gap-4 items-center">
-          <Link to="/login">
-            <div className="flex flex-col">
-              <span className="text-white">Hello, Guest</span>
-              <span className="font-bold text-white">Sign in</span>
+          <Link to={user ? "/" : "/login"}>
+            <div onClick={checkSignOut} className="flex flex-col">
+              <span className="text-white">Hello, {user ? `${user.email}` : "Guest"}</span>
+              <span className="font-bold text-white">{user ? "Sign out" : "Sign in"}</span>
             </div>
           </Link>
           <Link to="/orders">

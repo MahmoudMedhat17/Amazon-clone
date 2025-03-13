@@ -4,18 +4,23 @@ import { Link, useNavigate } from "react-router-dom";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../../firebase";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Login = () => {
+
+  function notify() {
+    toast("User is already created");
+  };
 
   // Using useNavigate hook to navigate to another page using React Router Dom
   const navigate = useNavigate();
 
   // User from Redux store
-  const user = useSelector((state:RootState)=> state.global.user);
 
+  // State for name of the user
+  // const [name,setName] = useState("");
+  
   // State for email of the user
   const [email,setEmail] = useState("");
   // State for the password of the user
@@ -31,27 +36,42 @@ const Login = () => {
       }
     }).catch((err)=> {
       console.log(err,"User is already created.");
-      window.alert("User is already created.");
+      toast.error("User is already created.")
     })
   };
-  console.log(user);
 
 
 
   return (
     <div className="w-full flex flex-col justify-center items-center p-8 sm:p-0">
+      <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+      />
       <Link to="/">
         <img src="/logo.png" alt="amazon-logo" className="w-30 h-30" />
       </Link>
         <form action="" className="w-full sm:w-1/2 lg:w-1/3 space-y-10 shadow-lg border-[1px] p-8">
           <h3 className="text-3xl font-semibold">Sign in</h3>
+          {/* <div>
+            <label htmlFor="name" className="font-semibold">Name</label>
+            <Input type="email" value={name} onChange={(e)=> setName(e.target.value)} />
+          </div> */}
           <div>
             <label htmlFor="email" className="font-semibold">E-mail</label>
-          <Input type="email" value={email} onChange={(e)=> setEmail(e.target.value)} />
+            <Input type="email" value={email} onChange={(e)=> setEmail(e.target.value)} />
           </div>
           <div>
-          <label htmlFor="password" className="font-semibold">Password</label>
-          <Input type="password" value={password} onChange={(e)=> setPassword(e.target.value)} />
+            <label htmlFor="password" className="font-semibold">Password</label>
+            <Input type="password" value={password} onChange={(e)=> setPassword(e.target.value)} />
           </div>
           <Button className="bg-yellow-600 w-full cursor-pointer" type="submit">
             Sign in
