@@ -1,0 +1,26 @@
+export const carouselImgs = [
+    {
+        title:"picOne",
+        img:"/picOne.jpg"
+    },
+    {
+        title:"picTwo",
+        img:"/picTwo.jpg"
+    },
+    {
+        title:"picThree",
+        img:"/picThree.jpg"
+    },
+    {
+        title:"picFour",
+        img:"/picFour.jpg"
+    },
+    {
+        title:"picFive",
+        img:"/picFive.jpg"
+    },
+    {
+        title:"picSix",
+        img:"/picSix.jpg"
+    }
+];

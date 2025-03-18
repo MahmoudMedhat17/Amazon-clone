@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./store/features/GlobalState";
 import {auth} from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import Home from "./components/Home/Home";
 
 const App = () => {
 
@@ -32,7 +33,12 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Header/>}/>
+        <Route path="/" element={
+          <>
+          <Header/>
+          <Home/>
+          </>
+        }/>
         <Route path="/login" element={<Login/>}/>
         <Route path="*" element={<h1 className="">Page is not found</h1>}/>
       </Routes>

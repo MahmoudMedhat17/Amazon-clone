@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {signOut} from "firebase/auth";
 import {auth} from "../../../firebase";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 
@@ -32,14 +32,14 @@ const Header = () => {
     signOut(auth).then(()=>{
       toast("User sign out successfully.");
     })
-  }
+    }
   };
 
   return (
     <header className="h-20 flex items-center bg-gray-950 px-4 sm:px-10">
       <nav className="flex items-center gap-2 w-full">
         <Link to="/">
-        <img src="/logo.png" alt="amazon-logo" className="w-20 sm:w-32 cursor-pointer"/>
+          <img src="/logo.png" alt="amazon-logo" className="w-20 sm:w-24 md:w-32 cursor-pointer"/>
         </Link>
         <div className="flex flex-1">
           <Input className="bg-white rounded-none"/>
@@ -49,7 +49,7 @@ const Header = () => {
         </div>
         <div className="hidden sm:flex gap-4 items-center">
           <Link to={user ? "/" : "/login"}>
-            <div onClick={checkSignOut} className="flex flex-col">
+            <div onClick={checkSignOut} className="flex flex-col max-w-[200px]">
               <span className="text-white">Hello, {user ? `${user.email}` : "Guest"}</span>
               <span className="font-bold text-white">{user ? "Sign out" : "Sign in"}</span>
             </div>
@@ -70,7 +70,7 @@ const Header = () => {
         <div className="flex sm:hidden">
           <Sheet>
             <SheetTrigger><Menu className="text-white cursor-pointer"/></SheetTrigger>
-            <SheetContent>
+            <SheetContent className="bg-gray-950">
               <SheetHeader>
                 <SheetTitle className="hidden">Are you absolutely sure?</SheetTitle>
                 <div className="flex flex-col gap-4 items-center">

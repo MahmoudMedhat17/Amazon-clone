@@ -1,7 +1,7 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Link, useNavigate } from "react-router-dom";
-import {createUserWithEmailAndPassword} from "firebase/auth";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../../firebase";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,15 +16,32 @@ const Login = () => {
   // Using useNavigate hook to navigate to another page using React Router Dom
   const navigate = useNavigate();
 
-  // User from Redux store
 
   // State for name of the user
   // const [name,setName] = useState("");
   
   // State for email of the user
   const [email,setEmail] = useState("");
+
   // State for the password of the user
   const [password,setPassword] = useState("");
+
+
+
+  // Function to sign in the user
+  const signInUser = (e:React.MouseEvent<HTMLButtonElement>)=>{
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password).then((userSignedIn)=>{
+      if(userSignedIn){
+        navigate("/");
+      }
+    })
+    .catch((error)=>{
+      console.log(error.message);
+      toast.error("User is already signed in.");
+    })
+  };
+
 
   // Function to register the user if he / she has no account yet
   const registerUser = (e:React.MouseEvent<HTMLButtonElement>) =>{
@@ -34,9 +51,9 @@ const Login = () => {
       if(userExist){
         navigate("/");
       }
-    }).catch((err)=> {
-      console.log(err,"User is already created.");
-      toast.error("User is already created.")
+    }).catch((error)=> {
+      console.log(error,"User is already created.");
+      toast.error("User is already created.");
     })
   };
 
@@ -73,7 +90,7 @@ const Login = () => {
             <label htmlFor="password" className="font-semibold">Password</label>
             <Input type="password" value={password} onChange={(e)=> setPassword(e.target.value)} />
           </div>
-          <Button className="bg-yellow-600 w-full cursor-pointer" type="submit">
+          <Button onClick={signInUser} className="bg-yellow-600 w-full cursor-pointer" type="submit">
             Sign in
           </Button>
           <p className="text-sm">By continuing, you agree to Amazon's Fake Clone Conditions of Use and Privacy Notice.</p>
