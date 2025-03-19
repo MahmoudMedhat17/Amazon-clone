@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { addItem } from "@/store/features/GlobalState";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 
@@ -45,9 +45,14 @@ const Clothesproducts = () => {
         };
         responseData();
     },[]);
-    
 
-    
+
+    const addProduct=(product:Productsprops)=>{
+        dispatch(addItem(product));
+        toast.success("Product is added to the cart!");
+        console.log(cartItems.length);
+        console.log(cartItems);
+    };
 
 
   return (
@@ -63,7 +68,7 @@ const Clothesproducts = () => {
                             <p>$
                                 <span className="font-bold">{product.price}</span>
                             </p>
-                            <Button className="cursor-pointer bg-yellow-500 hover:bg-yellow-400 duration-300 text-black">Add to cart</Button>
+                            <Button onClick={()=>addProduct(product)} className="cursor-pointer bg-yellow-500 hover:bg-yellow-400 duration-300 text-black">Add to cart</Button>
                         </div>
                     </div>
                 ))

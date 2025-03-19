@@ -3,13 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Search } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { Menu } from 'lucide-react';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import { ShoppingCart } from 'lucide-react';
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -21,6 +15,8 @@ import { toast } from 'react-toastify';
 
 const Header = () => {
   const user = useSelector((state:RootState)=> state.global.user);
+  const cartItems = useSelector((state: RootState)=> state.global.cart);
+  const totalQuantity = cartItems.reduce((total,item)=> total + item.quantity,0);
 
   function notify() {
     toast("User is already created");
@@ -63,7 +59,7 @@ const Header = () => {
           <Link to="/cart">
             <div className="text-white flex gap-2">
               <span className="text-white"><ShoppingCart size={30}/></span>
-              <span className="font-bold text-white">6</span>
+              <span className="font-bold text-white">{totalQuantity}</span>
             </div>
           </Link>
         </div>
@@ -89,7 +85,7 @@ const Header = () => {
                   <Link to="/cart">
                   <div className="text-white flex gap-2">
                     <span className="text-white"><ShoppingCart size={30}/></span>
-                    <span className="font-bold text-white">6</span>
+                    <span className="font-bold text-white">{totalQuantity}</span>
                   </div>
                   </Link>
                 </div>

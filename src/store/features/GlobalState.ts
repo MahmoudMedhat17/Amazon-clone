@@ -10,6 +10,8 @@ interface Productprops{
     id:number;
     name:string;
     price:number;
+    quantity:number;
+    totalPrice:number;
 };
 
 interface GlobalState{
@@ -31,14 +33,22 @@ export const globalState = createSlice({
         },
         addItem:(state,action)=>{
             const newItem = action.payload;
-            state.cart.push({
-                id:newItem.id,
-                title:newItem.title,
-                price:newItem.price,
-                description:newItem.description,
-                category:newItem.category,
-            });
+            const itemExists = state.cart.find((item)=> item.id === newItem.id);
+            if(itemExists){
+                itemExists.quantity++;
+                itemExists.totalPrice += newItem.price;
+            }
+            else{
+                state.cart.push({
+                    id:newItem.id,
+                    name:newItem.name,
+                    price:newItem.price,
+                    quantity:1,
+                    totalPrice:newItem.price,
+                });
+            }
         }
+        
     }
 });
 
