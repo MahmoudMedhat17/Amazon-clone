@@ -3,12 +3,15 @@ import {createSlice} from "@reduxjs/toolkit";
 
 interface Userprops{
     id:string;
-    name:string;
+    email:string;
 };
 
 interface Productprops{
     id:number;
-    name:string;
+    title:string;
+    image:string;
+    category:string;
+    description:string;
     price:number;
     quantity:number;
     totalPrice:number;
@@ -41,7 +44,10 @@ export const globalState = createSlice({
             else{
                 state.cart.push({
                     id:newItem.id,
-                    name:newItem.name,
+                    title:newItem.title,
+                    image:newItem.image,
+                    category:newItem.category,
+                    description:newItem.description,
                     price:newItem.price,
                     quantity:1,
                     totalPrice:newItem.price,

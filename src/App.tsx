@@ -1,14 +1,17 @@
-import {Routes, Route} from "react-router-dom";
-import Header from "./components/Header/Header";
+import { Route, Routes } from 'react-router';
 import Login from "./components/Header/Login";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "./store/features/GlobalState";
 import {auth} from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import Layout from './Layout';
 import Home from "./components/Home/Home";
+import Checkout from "./components/Checkout";
+import Error from './components/Error';
 
 const App = () => {
+
 
   // Dispatch to fire the actions stored in redux store
   const dispatch = useDispatch();
@@ -33,14 +36,12 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={
-          <>
-          <Header/>
-          <Home/>
-          </>
-        }/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="*" element={<h1 className="">Page is not found</h1>}/>
+        <Route path="/" element={<Layout/>}>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/checkout" element={<Checkout/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="*" element={<Error/>}/>
+        </Route>
       </Routes>
     </div>
   )

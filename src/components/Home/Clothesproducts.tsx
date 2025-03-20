@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { addItem } from "@/store/features/GlobalState";
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 
@@ -44,7 +44,7 @@ const Clothesproducts = () => {
             }
         };
         responseData();
-    },[]);
+    },[products]);
 
 
     const addProduct=(product:Productsprops)=>{
@@ -56,6 +56,19 @@ const Clothesproducts = () => {
 
 
   return (
+    <div>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 px-10 pb-20">
             {
                 products.map((product: Productsprops)=>(
@@ -74,6 +87,7 @@ const Clothesproducts = () => {
                 ))
             }
         </div>
+    </div>
   )
 }
 
