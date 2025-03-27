@@ -82,7 +82,7 @@ const Header = () => {
                     <span className="text-white font-bold">& Orders</span>
                   </div>
                   </Link>
-                  <Link to="/cart">
+                  <Link to="/checkout">
                   <div className="text-white flex gap-2">
                     <span className="text-white"><ShoppingCart size={30}/></span>
                     <span className="font-bold text-white">{totalQuantity}</span>

@@ -21,16 +21,22 @@ const Checkout = () => {
       <div className="bg-[#f3f4f4] border-b-2">
         <div className="p-4">
           {
+            cartItems.length === 0 ? 
+            <div className="flex flex-col justify-center items-center space-y-4">
+              <img src="/empty-cart.svg" alt="EmptyCart" className="w-32 sm:w-52 md:w-72 mx-auto"/>
+              <h2 className="text-xl font-semibold">Cart is Empty...</h2>
+            </div>
+            :
             cartItems.map((item)=>(
-              <div key={item.id}>
+              <div key={item.id} className="mb-20">
                   <div className="flex justify-between gap-4 border-b-2">
-                    <img src={item.image} alt={item.title} className="w-32 md:w-40 max-h-[300px]"/>
-                    <div className="flex flex-col space-y-4">
+                    <img src={item.image} alt={item.title} className="w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 max-h-[300px]"/>
+                    <div className="flex flex-col space-y-4 mb-8">
                       <p className="text-sm">{item.category}</p>
                       <h3 className="font-semibold">{item.title}</h3>
-                      <p className="text-sm">{item.description}</p>
+                      <p className="text-sm max-w-[500px]">{item.description}</p>
                       <div className="flex items-center gap-4">
-                        <div className="flex gap-4 border-2 border-yellow-500 p-2 rounded-full">
+                        <div className="flex gap-4 border-2 border-yellow-500 md:p-1 rounded-full">
                           <Button variant="ghost" className="cursor-pointer hover:bg-transparent">
                             <Trash/>
                           </Button>
@@ -46,11 +52,11 @@ const Checkout = () => {
                       </div>
                     </div>
                     <div>
-                      <h3 className="font-bold text-xl">${item.price}</h3>
+                      <h3 className="font-bold text-sm md:text-base lg:text-xl">${item.price}</h3>
                     </div>
                   </div>
                   <div className="flex justify-end">
-                    <h3 className="font-semibold text-xl">Subtotal ({item.quantity} item): <span className="font-bold">${item.price}</span></h3>
+                    <h3 className="font-semibold md:text-xl">Subtotal ({item.quantity} item): <span className="font-bold">${item.price}</span></h3>
                   </div>
               </div>
             ))
