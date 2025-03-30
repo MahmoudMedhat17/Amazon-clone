@@ -34,7 +34,7 @@ export const globalState = createSlice({
         setUser:(state,action)=>{
             state.user = action.payload;
         },
-        addItem:(state,action)=>{
+        purchaseItem:(state,action)=>{
             const newItem = action.payload;
             const itemExists = state.cart.find((item)=> item.id === newItem.id);
             if(itemExists){
@@ -52,12 +52,19 @@ export const globalState = createSlice({
                     quantity:1,
                     totalPrice:newItem.price,
                 });
+                // state.cart.push({
+                //     ...newItem,
+                //     quantity:1,
+                //     totalPrice:newItem.price
+                // })
             }
+        },
+        clearCart:(state)=>{
+            state.cart = []
         }
-        
     }
 });
 
 
-export const { setUser, addItem } = globalState.actions;
+export const { setUser, purchaseItem, clearCart } = globalState.actions;
 export default globalState.reducer;

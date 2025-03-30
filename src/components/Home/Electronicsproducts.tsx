@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { addItem } from "@/store/features/GlobalState";
+import { purchaseItem } from "@/store/features/GlobalState";
 import { toast } from "react-toastify";
 
 
@@ -41,7 +41,7 @@ const Electronicsproducts = () => {
 
 
     const addProducts = (product:Productsprops) =>{
-        dispatch(addItem(product));
+        dispatch(purchaseItem(product));
         toast.success("Product is added to the cart!");
         console.log(cartItems.length);
         console.log(cartItems);
