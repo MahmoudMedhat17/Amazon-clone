@@ -2,7 +2,7 @@ import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "./ui/button";
 import { Trash, CirclePlus } from "lucide-react";
-import {  clearCart} from "@/store/features/GlobalState";
+import {  increaseQuantity, decreaseQuantity, deleteItem, clearCart} from "@/store/features/GlobalState";
 
 const Checkout = () => {
 
@@ -41,41 +41,47 @@ const Checkout = () => {
                       <p className="text-sm max-w-[500px]">{item.description}</p>
                       <div className="flex items-center gap-4">
                         <div className="flex gap-4 border-2 border-yellow-500 md:p-1 rounded-full">
-                          <Button variant="ghost" className="cursor-pointer hover:bg-transparent">
+                          <Button onClick={()=> {
+                            dispatch(decreaseQuantity(item.id));
+                            console.log(item.id, "Item is removed!");
+                          }} variant="ghost" className="cursor-pointer hover:bg-transparent">
                             <Trash/>
                           </Button>
                           <span className="text-xl">{item.quantity}</span>
-                          <Button variant="ghost" className="cursor-pointer hover:bg-transparent text-2xl">
+                          <Button onClick={()=>{
+                            dispatch(increaseQuantity(item.id));
+                            console.log(item.id, "Item is increased!!");
+                          }} variant="ghost" className="cursor-pointer hover:bg-transparent text-2xl">
                             <CirclePlus/>
                           </Button>
                         </div>
                         <span>
                           |
                         </span>
-                        <Button variant="ghost" className="text-sm text-blue-600 cursor-pointer hover:text-blue-400 duration-200">Delete</Button>
+                        <Button onClick={()=> dispatch(deleteItem(item.id))} variant="ghost" className="text-base text-blue-600 cursor-pointer hover:text-blue-400 duration-200">Delete</Button>
                       </div>
                     </div>
                     <div>
-                      <h3 className="font-bold text-sm md:text-base lg:text-xl">${item.price}</h3>
+                      <h3 className="font-bold text-sm md:text-base lg:text-xl">${Math.ceil(item.price)}</h3>
                     </div>
                   </div>
-                  <div className="flex justify-end">
-                    <h3 className="font-semibold md:text-xl">Subtotal ({item.quantity} item): <span className="font-bold">${item.price}</span></h3>
+                  <div className="flex justify-end mt-2">
+                    <h3 className="font-semibold md:text-xl">Subtotal ({item.quantity} item): <span className="font-bold">${Math.ceil(item.totalPrice)}</span></h3>
                   </div>
               </div>
             ))
           }
-          <div className="flex justify-end">
-            <Button variant="ghost" className="bg-yellow-600 hover:bg-yellow-500 duration-200 !text-white  rounded-sm cursor-pointer">
-                        Processed to checkout
+          <div className="flex justify-end mt-10">
+            <Button variant="ghost" className="w-full sm:w-1/3 md:w-1/4 lg:w-1/6 bg-yellow-600 hover:bg-yellow-500 duration-200 !text-white  rounded-sm cursor-pointer">
+              Processed to checkout
             </Button>
           </div>
           {/* Condition to show the clear cart button if there is any products inside the checkout */}
           {
             cartItems.length === 0 ? ""
             : 
-            <div className="mt-8 flex justify-center items-center">
-            <Button onClick={()=> dispatch(clearCart())} variant="destructive" className="w-1/2 md:w-1/3 cursor-pointer">
+            <div className="mt-8 flex justify-center sm:justify-end">
+            <Button onClick={()=> dispatch(clearCart())} variant="destructive" className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 cursor-pointer">
               Clear Cart
             </Button>
           </div>
