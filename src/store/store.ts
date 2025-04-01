@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import globalStateReducer from "./features/GlobalState";
+import {storeApi} from "@/store/features/Apislice";
 
 export const store = configureStore({
   reducer: {
-    global:globalStateReducer
+    global:globalStateReducer,
+    [storeApi.reducerPath]: storeApi.reducer
   },
+  middleware:(getDefaultMiddleWare)=> getDefaultMiddleWare().concat(storeApi.middleware)
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

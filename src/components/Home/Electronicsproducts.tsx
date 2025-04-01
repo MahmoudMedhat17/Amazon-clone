@@ -1,10 +1,11 @@
-import { fetchData } from "@/lib/fetchData";
+// import { fetchData } from "@/lib/fetchData";
 import { Button } from "../ui/button";
-import {useState, useEffect} from "react";
+// import {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { purchaseItem } from "@/store/features/GlobalState";
 import { toast } from "react-toastify";
+import {useGetElectronicsQuery} from "@/store/features/Apislice";
 
 
 interface Productsprops{
@@ -19,38 +20,53 @@ interface Productsprops{
 
 const Electronicsproducts = () => {
 
-    const [products,setProducts] = useState<any[]>([]);
+    const {data:electronicsProducts, error, isLoading} = useGetElectronicsQuery();
+
+    // const [products,setProducts] = useState<any[]>([]);
     const cartItems = useSelector((state:RootState)=>state.global.cart);
     const dispatch = useDispatch();
 
     
 
 
-    useEffect(()=>{
-        try {
-            const responseData = async()=>{
-                const electronticsData = await fetchData("https://fakestoreapi.com/products/category/electronics");
-                setProducts(electronticsData);
-            }
-            responseData();
-        } catch (error) {
-            console.log(error);
-            throw new Error("Something went wrong!");
-        }
-    },[products]);
+    // useEffect(()=>{
+    //     const responseData = async()=>{
+    //     try {
+    //             const electronticsData = await fetchData("https://fakestoreapi.com/products/category/electronics");
+    //             setProducts(electronticsData);
+    //     } catch (error) {
+    //         console.log(error);
+    //         throw new Error("Something went wrong!");
+    //     }
+    // };
+    //     responseData();
+    // },[]);
 
-
+// Function to be able to add products to the cart.
     const addProducts = (product:Productsprops) =>{
         dispatch(purchaseItem(product));
         toast.success("Product is added to the cart!");
         console.log(cartItems.length);
         console.log(cartItems);
     };
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 px-10 py-20">
+    <div>
         {
-            products.map((product: Productsprops)=>(
+            isLoading ? 
+            // <Oval
+            //     visible={true}
+            //     height="80"
+            //     width="80"
+            //     color="#4fa94d"
+            //     ariaLabel="oval-loading"
+            //     wrapperStyle={{}}
+            //     wrapperClass=""
+            // />  
+            ""
+            :
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 px-10 py-20">
+        {
+            electronicsProducts.map((product: Productsprops)=>(
                 <div className="bg-white h-full rounded-md p-6 shadow-2xl hover:scale-105 duration-300" key={product.title}>
                     <div className="h-full flex flex-col justify-between space-y-4">
                         <small className="text-right text-gray-400">{product.category}</small>
@@ -64,6 +80,8 @@ const Electronicsproducts = () => {
                     </div>
                 </div>
             ))
+        }
+        </div>
         }
     </div>
   )
