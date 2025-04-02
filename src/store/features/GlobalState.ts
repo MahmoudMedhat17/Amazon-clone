@@ -60,9 +60,13 @@ export const globalState = createSlice({
             }
         },
         increaseQuantity:(state,action)=>{
+            // Action here is for the item id that the user want to decrease quantity for it
             const itemId = action.payload;
+            // Check here if the item already exists in the cart or not by comparing the item id with the id of the item the user chosen to decrease it's quantity
             const itemExists = state.cart.find((item)=> item.id === itemId);
+            // Check if the item exists in the cart or not
             if(itemExists){
+                // If the item in the cart has quantity larger than 1 or item in the cart quantity = 1 then increase that quantity by one and increase the price of that item from the total price of the whole cart as it's added to the cart.
                 if(itemExists.quantity > 1 || itemExists.quantity === 1){
                     itemExists.quantity++;
                     itemExists.totalPrice += itemExists.price;

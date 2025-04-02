@@ -6,7 +6,7 @@ import { RootState } from "@/store/store";
 import { purchaseItem } from "@/store/features/GlobalState";
 import { toast, ToastContainer } from 'react-toastify';
 import {useGetMenClothesQuery, useGetWomenClothesQuery} from "@/store/features/Apislice";
-import Oval from "react-spinners";
+import Loadingspinner from "@/lib/Loadingspinner";
 
 
 interface Productsprops{
@@ -22,8 +22,8 @@ interface Productsprops{
 const Clothesproducts = () => {
 
 
-    const {data:menClothes, error:menClothesError, isLoading:menClothesLoading} = useGetMenClothesQuery();
-    const {data: womenClothes, error:womenClothesError, isLoading:womenClothesLoading} = useGetWomenClothesQuery();
+    const {data:menClothes, error:menClothesError, isLoading:menClothesLoading} = useGetMenClothesQuery(undefined);
+    const {data: womenClothes, error:womenClothesError, isLoading:womenClothesLoading} = useGetWomenClothesQuery(undefined);
 
 
     const allClothes = [...(menClothes || []), ...(womenClothes || [])];
@@ -34,9 +34,9 @@ const Clothesproducts = () => {
     const cartItems = useSelector((state: RootState)=> state.global.cart);
     const dispatch = useDispatch();
 
-    function notify() {
-        toast("User is already created");
-      };
+    // function notify() {
+    //     toast("User is already created");
+    //   };
 
 
 
@@ -62,6 +62,17 @@ const Clothesproducts = () => {
         console.log(cartItems);
     };
 
+
+        if(menClothesLoading || womenClothesLoading) return <Loadingspinner/>
+
+        if(menClothesError || womenClothesError){
+            return(
+                <div className="flex flex-col justify-center items-center space-y-10 p-10">
+                    <h3 className="text-yellow-500 font-semibold text-xl sm:text-2xl">Unfortunately, something went wrong</h3>
+                    <img src="/sadface.png" alt="errorPic" className="w-32 sm:w-52"/>
+                </div>
+            )
+        };
 
   return (
     <div>

@@ -6,7 +6,7 @@ import { RootState } from "@/store/store";
 import { purchaseItem } from "@/store/features/GlobalState";
 import { toast } from "react-toastify";
 import {useGetElectronicsQuery} from "@/store/features/Apislice";
-
+import Loadingspinner from "@/lib/Loadingspinner";
 
 interface Productsprops{
     id:number;
@@ -20,7 +20,7 @@ interface Productsprops{
 
 const Electronicsproducts = () => {
 
-    const {data:electronicsProducts, error, isLoading} = useGetElectronicsQuery();
+    const {data:electronicsProducts, error, isLoading} = useGetElectronicsQuery(undefined);
 
     // const [products,setProducts] = useState<any[]>([]);
     const cartItems = useSelector((state:RootState)=>state.global.cart);
@@ -49,6 +49,19 @@ const Electronicsproducts = () => {
         console.log(cartItems.length);
         console.log(cartItems);
     };
+
+
+    if(isLoading) return <Loadingspinner/>
+
+    if(error){
+        return(
+            <div className="flex flex-col justify-center items-center space-y-10 p-10">
+                <h3 className="text-yellow-500 font-semibold text-xl sm:text-2xl">Unfortunately, something went wrong</h3>
+                <img src="/sadface.png" alt="errorPic" className="w-32 sm:w-52"/>
+            </div>
+        )
+    };
+
   return (
     <div>
         {
