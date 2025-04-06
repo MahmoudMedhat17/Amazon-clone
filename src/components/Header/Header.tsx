@@ -26,7 +26,7 @@ const Header = () => {
   const checkSignOut = () =>{
     if(user){
     signOut(auth).then(()=>{
-      toast("User sign out successfully.");
+      toast("User signed out successfully.");
     })
     }
   };

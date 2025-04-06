@@ -71,20 +71,25 @@ const Checkout = () => {
               </div>
             ))
           }
-          <div className="flex justify-end mt-10">
-            <Button variant="ghost" className="w-full sm:w-1/3 md:w-1/4 lg:w-1/6 bg-yellow-600 hover:bg-yellow-500 duration-200 !text-white  rounded-sm cursor-pointer">
-              Processed to checkout
-            </Button>
-          </div>
+          {/* Condition to show the processed to checkout button if there is any products inside the checkout */}
+          {
+            cartItems.length === 0 ? ""
+            :
+            <div className="flex justify-end mt-10">
+              <Button variant="ghost" className="w-full sm:w-1/3 md:w-1/4 lg:w-1/6 bg-yellow-600 hover:bg-yellow-500 duration-200 !text-white  rounded-sm cursor-pointer">
+                Processed to checkout
+              </Button>
+            </div>
+          }
           {/* Condition to show the clear cart button if there is any products inside the checkout */}
           {
             cartItems.length === 0 ? ""
             : 
             <div className="mt-8 flex justify-center sm:justify-end">
-            <Button onClick={()=> dispatch(clearCart())} variant="destructive" className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 cursor-pointer">
-              Clear Cart
-            </Button>
-          </div>
+              <Button onClick={()=> dispatch(clearCart())} variant="destructive" className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 cursor-pointer">
+                Clear Cart
+              </Button>
+            </div>
           }
         </div>
       </div>

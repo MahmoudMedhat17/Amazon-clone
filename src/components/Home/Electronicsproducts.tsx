@@ -87,7 +87,7 @@ const Electronicsproducts = () => {
                         <h3 className="font-bold">{product.title.slice(0,30)}</h3>
                         <p>{product.description.slice(0,60)}</p>
                         <p>$
-                            <span className="font-bold">{product.price}</span>
+                            <span className="font-bold">{Math.floor(product.price)}</span>
                         </p>
                         <Button onClick={()=>addProducts(product)} className="cursor-pointer bg-yellow-500 hover:bg-yellow-400 duration-300 text-black">Add to cart</Button>
                     </div>

@@ -18,7 +18,7 @@ const Footer = () => {
         {
           footerLinks.map((section)=>(
             <div key={section.title}>
-              <h3 className="text-white font-bold mb-4">{section.title}</h3>
+              <h3 className="text-white font-bold mb-2 sm:mb-4">{section.title}</h3>
               {
                 section.links.map((link)=>(
                   <p className="text-white/70 hover:underline duration-200 cursor-pointer">{link}</p>
