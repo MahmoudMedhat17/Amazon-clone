@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "./ui/button";
 import { Trash, CirclePlus } from "lucide-react";
 import {  increaseQuantity, decreaseQuantity, deleteItem, clearCart} from "@/store/features/GlobalState";
+import { Link } from "react-router-dom";
+
 
 const Checkout = () => {
 
@@ -62,11 +64,11 @@ const Checkout = () => {
                       </div>
                     </div>
                     <div>
-                      <h3 className="font-bold text-sm md:text-base lg:text-xl">${Math.ceil(item.price)}</h3>
+                      <h3 className="font-bold text-sm md:text-base lg:text-xl">${Math.floor(item.price)}</h3>
                     </div>
                   </div>
                   <div className="flex justify-end mt-2">
-                    <h3 className="font-semibold md:text-xl">Subtotal ({item.quantity} item): <span className="font-bold">${Math.ceil(item.totalPrice)}</span></h3>
+                    <h3 className="font-semibold md:text-xl">Subtotal ({item.quantity} item): <span className="font-bold">${Math.floor(item.totalPrice)}</span></h3>
                   </div>
               </div>
             ))
@@ -75,26 +77,25 @@ const Checkout = () => {
           {
             cartItems.length === 0 ? ""
             :
-            <div className="flex justify-end mt-10">
-              <Button variant="ghost" className="w-full sm:w-1/3 md:w-1/4 lg:w-1/6 bg-yellow-600 hover:bg-yellow-500 duration-200 !text-white  rounded-sm cursor-pointer">
-                Processed to checkout
-              </Button>
-            </div>
+            <Link to="/payment">
+              <div className="flex justify-end mt-10">
+                <Button variant="ghost" className="w-full sm:w-1/3 md:w-1/4 lg:w-1/6 bg-yellow-600 hover:bg-yellow-500 duration-200 !text-white  rounded-sm cursor-pointer">
+                  Processed to checkout
+                </Button>
+              </div>
+            </Link>
           }
           {/* Condition to show the clear cart button if there is any products inside the checkout */}
           {
             cartItems.length === 0 ? ""
             : 
             <div className="mt-8 flex justify-center sm:justify-end">
-              <Button onClick={()=> dispatch(clearCart())} variant="destructive" className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 cursor-pointer">
+              <Button onClick={()=> dispatch(clearCart())} variant="destructive" className="w-full sm:w-1/3 md:w-1/4 lg:w-1/6 cursor-pointer">
                 Clear Cart
               </Button>
             </div>
           }
         </div>
-      </div>
-      <div>
-        
       </div>
     </div>
   )

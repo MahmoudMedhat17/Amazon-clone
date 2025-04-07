@@ -81,7 +81,8 @@ const Login = () => {
           {/* <div>
             <label htmlFor="name" className="font-semibold">Name</label>
             <Input type="email" value={name} onChange={(e)=> setName(e.target.value)} />
-          </div> */}
+          </div> */
+          }
           <div>
             <label htmlFor="email" className="font-semibold">E-mail</label>
             <Input type="email" value={email} onChange={(e)=> setEmail(e.target.value)} />
@@ -94,7 +95,7 @@ const Login = () => {
             Sign in
           </Button>
           <p className="text-sm">By continuing, you agree to Amazon's Fake Clone Conditions of Use and Privacy Notice.</p>
-          <Button onClick={registerUser} className="bg-gray-300 border-[1px] border-black font-normal w-full cursor-pointer">
+          <Button variant="ghost" onClick={registerUser} className="bg-gray-300 border-[1px] border-black font-normal w-full cursor-pointer">
             Create Your Amazon Account
           </Button>
         </form>

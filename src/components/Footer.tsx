@@ -30,7 +30,7 @@ const Footer = () => {
         </div>
         <div className="w-full flex justify-center items-center gap-8">
           <Link to="/">
-            <img src="/Amazon-Logo.png" alt="AmazonLogo" className="w-20 cursor-pointer" />
+            <img src="/Amazon-Logo.png" alt="AmazonLogo" className="w-16 sm:w-20 cursor-pointer" />
           </Link>
           <p className="text-white font-medium">Copyright@Mahmoud Medhat {yearlyDate}</p>
         </div>

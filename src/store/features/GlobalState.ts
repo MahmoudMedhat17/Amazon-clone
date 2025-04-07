@@ -1,137 +1,137 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import {db} from "../../../firebase";
-import {collection, doc, setDoc, getDocs, updateDoc, deleteDoc} from "firebase/firestore";
+import {createSlice} from "@reduxjs/toolkit";
+// import {db} from "../../../firebase";
+// import {collection, doc, setDoc, getDocs, updateDoc, deleteDoc} from "firebase/firestore";
 
 
 
 // Show the products related to the user when the user is logged in
-export const fetchCartThunk = createAsyncThunk("cart/fetchcart", async(userId)=>{
-   try {
-    const cartItems = collection(db,`user/${userId}/id`);
-    const allItems = await getDocs(cartItems);
-    return allItems.docs.map((doc)=> (
-        {
-            id:Number(doc.id),
-            title:doc.data().title as string,
-            image:doc.data().image as string | null,
-            category:doc.data().category as string,
-            description:doc.data().description as string,
-            price:doc.data().price as number,
-            quantity:doc.data().quantity as number,
-            totalPrice:doc.data().totalPrice as number
-        }));
-   } catch (error) {
-    console.log(error);
-    throw new Error("Something went wrong!");
-   }
-});
+// export const fetchCartThunk = createAsyncThunk("cart/fetchcart", async(userId)=>{
+//    try {
+//     const cartItems = collection(db,`user/${userId}/id`);
+//     const allItems = await getDocs(cartItems);
+//     return allItems.docs.map((doc)=> (
+//         {
+//             id:Number(doc.id),
+//             title:doc.data().title as string,
+//             image:doc.data().image as string | null,
+//             category:doc.data().category as string,
+//             description:doc.data().description as string,
+//             price:doc.data().price as number,
+//             quantity:doc.data().quantity as number,
+//             totalPrice:doc.data().totalPrice as number
+//         }));
+//    } catch (error) {
+//     console.log(error);
+//     throw new Error("Something went wrong!");
+//    }
+// });
 
 
 // Add products to the cart and save them to firestore database
-export const purchaseItemThunk = createAsyncThunk("cart/purchaseItemThunk", async({userId, product}, {getState})=>{
-    try {
-        const state = getState();
-        const productItems = doc(db, `users/${userId}/cart`, product.id.toString());
-        const itemExists = state.cart.find((item)=> item.id === product.id);
+// export const purchaseItemThunk = createAsyncThunk("cart/purchaseItemThunk", async({userId, product}, {getState})=>{
+//     try {
+//         const state = getState();
+//         const productItems = doc(db, `users/${userId}/cart`, product.id.toString());
+//         const itemExists = state.cart.find((item)=> item.id === product.id);
         
-        if(itemExists){
-            await updateDoc(productItems,{
-                quantity: itemExists.quantity + 1,
-                totalPrice: itemExists.totalPrice += product.price
-            });
-        }
-        else{
-            await setDoc(productItems,{
-                ...product,
-                quantity:1,
-                totalPrice: product.price
-            })
-        };
+//         if(itemExists){
+//             await updateDoc(productItems,{
+//                 quantity: itemExists.quantity + 1,
+//                 totalPrice: itemExists.totalPrice += product.price
+//             });
+//         }
+//         else{
+//             await setDoc(productItems,{
+//                 ...product,
+//                 quantity:1,
+//                 totalPrice: product.price
+//             })
+//         };
 
-        return product;
-    } catch (error) {
-        console.log(error);
-        throw new Error("Something went wrong!");
-    }
-});
+//         return product;
+//     } catch (error) {
+//         console.log(error);
+//         throw new Error("Something went wrong!");
+//     }
+// });
 
 
 // Increase the number of the same product in the cart and save it to firebase firestore
-export const increaseQuantityThunk = createAsyncThunk("cart/increaseQuantityThunk", async({userId, productId}, {getState})=>{
-    try {
-        const state = getState();
-        const productItems = doc(db, `users/${userId}/cart`, productId.toString());
-        const itemExists = state.cart.find((item)=> item.id === productId);
+// export const increaseQuantityThunk = createAsyncThunk("cart/increaseQuantityThunk", async({userId, productId}, {getState})=>{
+//     try {
+//         const state = getState();
+//         const productItems = doc(db, `users/${userId}/cart`, productId.toString());
+//         const itemExists = state.cart.find((item)=> item.id === productId);
 
-        if(!itemExists) return;
+//         if(!itemExists) return;
 
-        await updateDoc(productItems,{
-            quantity: itemExists.quantity + 1,
-            totalPrice: itemExists.totalPrice + itemExists.price
-        })
+//         await updateDoc(productItems,{
+//             quantity: itemExists.quantity + 1,
+//             totalPrice: itemExists.totalPrice + itemExists.price
+//         })
 
-        return productId;   
-    } catch (error) {
-        console.log(error);
-        throw new Error("Something went wrong!");
-    }
-});
+//         return productId;   
+//     } catch (error) {
+//         console.log(error);
+//         throw new Error("Something went wrong!");
+//     }
+// });
 
 
 // Decrease the number of the same product in the cart and save it to firebase firestore
-export const decreaseQuantityThunk = createAsyncThunk("cart/decreaseQuantityThunk", async({userId, productId}, {getState})=>{
-    try {
-        const state = getState();
-        const productItems = doc(db, `users/${userId}/cart`, productId.toString());
-        const itemExists = state.cart.find((item)=> item.id === productId);
+// export const decreaseQuantityThunk = createAsyncThunk("cart/decreaseQuantityThunk", async({userId, productId}, {getState})=>{
+//     try {
+//         const state = getState();
+//         const productItems = doc(db, `users/${userId}/cart`, productId.toString());
+//         const itemExists = state.cart.find((item)=> item.id === productId);
 
-        if(!itemExists) return;
+//         if(!itemExists) return;
         
-        if(itemExists.quantity > 1){
-            await updateDoc(productItems,{
-                quantity:itemExists.quantity - 1,
-                totalPrice: itemExists.totalPrice - itemExists.price
-            })
-        }
-        else{
-            await deleteDoc(productItems);
-        }
+//         if(itemExists.quantity > 1){
+//             await updateDoc(productItems,{
+//                 quantity:itemExists.quantity - 1,
+//                 totalPrice: itemExists.totalPrice - itemExists.price
+//             })
+//         }
+//         else{
+//             await deleteDoc(productItems);
+//         }
 
-        return productId;   
-    } catch (error) {
-        console.log(error);
-        throw new Error("Something went wrong!");
-    }
-});
+//         return productId;   
+//     } catch (error) {
+//         console.log(error);
+//         throw new Error("Something went wrong!");
+//     }
+// });
 
 
 // Remove item from the cart and delete it from firebase firestore
-export const deleteItemThunk = createAsyncThunk("cart/deleteItemThunk", async({userId,productId})=>{
-    try {
-        const productItems = doc(db, `users/${userId}/cart`, productId.toString());
-        await deleteDoc(productItems);
-        return productId;   
-    } catch (error) {
-        console.log(error);
-        throw new Error("Something went wrong!");
-    }
-});
+// export const deleteItemThunk = createAsyncThunk("cart/deleteItemThunk", async({userId,productId})=>{
+//     try {
+//         const productItems = doc(db, `users/${userId}/cart`, productId.toString());
+//         await deleteDoc(productItems);
+//         return productId;   
+//     } catch (error) {
+//         console.log(error);
+//         throw new Error("Something went wrong!");
+//     }
+// });
 
 
 // Clear the entire cart
-export const clearCartThunk = createAsyncThunk("cart/clearCartThunk", async(userId)=>{
-    try {
-        const itemsInCart = collection(db, `users/${userId}/cart`);
-        const allItems = await getDocs(itemsInCart);
-        for(const items of allItems.docs){
-            await deleteDoc(items.ref);
-        }
-        return [];
-    } catch (error) {
-        console.log(error);
-        throw new Error("Something went wrong!");
-    }
-});
+// export const clearCartThunk = createAsyncThunk("cart/clearCartThunk", async(userId)=>{
+//     try {
+//         const itemsInCart = collection(db, `users/${userId}/cart`);
+//         const allItems = await getDocs(itemsInCart);
+//         for(const items of allItems.docs){
+//             await deleteDoc(items.ref);
+//         }
+//         return [];
+//     } catch (error) {
+//         console.log(error);
+//         throw new Error("Something went wrong!");
+//     }
+// });
 
 
 interface Userprops{
@@ -142,7 +142,7 @@ interface Userprops{
 interface Productprops{
     id:number;
     title:string;
-    image:string | null;
+    image:string | undefined;
     category:string;
     description:string;
     price:number;
@@ -236,61 +236,61 @@ export const globalState = createSlice({
             state.cart = []
         }
     },
-    extraReducers(builder) {
-        builder.addCase(fetchCartThunk.fulfilled,(state,action)=>{
-            state.cart = action.payload
-        })
-        builder.addCase(purchaseItemThunk.fulfilled, (state,action)=>{
-            const newItem = action.payload;
-            const itemExists = state.cart.find((item)=> item.id === newItem.id);
-            if(itemExists){
-                itemExists.quantity++;
-                itemExists.totalPrice += itemExists.price;
-            }
-            else{
-                state.cart.push({
-                    id:newItem.id,
-                    title:newItem.title,
-                    image:newItem.image,
-                    category:newItem.category,
-                    description:newItem.description,
-                    price:newItem.price,
-                    quantity:1,
-                    totalPrice:newItem.price,
-                })
-            }
-        })
-        builder.addCase(increaseQuantityThunk.fulfilled, (state,action)=>{
-            const itemId = action.payload;
-            const itemExists = state.cart.find((item)=> item.id === itemId);
-            if(itemExists){
-                if(itemExists.quantity > 1 || itemExists.quantity === 1){
-                    itemExists.quantity++;
-                    itemExists.totalPrice += itemExists.price
-                }
-            }
-        })
-        builder.addCase(decreaseQuantityThunk.fulfilled, (state,action)=>{
-            const itemId = action.payload;
-            const itemExists = state.cart.find((item)=> item.id === itemId);
-            if(itemExists){
-                if(itemExists.quantity > 1){
-                    itemExists.quantity--;
-                    itemExists.totalPrice -= itemExists.price;
-                }
-                else{
-                    state.cart = state.cart.filter((item)=> item.id !== itemId);
-                }
-            }
-        })
-        builder.addCase(deleteItemThunk.fulfilled, (state,action)=>{
-            const targetedItem = action.payload;
-            state.cart = state.cart.filter((item)=> item.id !== targetedItem);
-        })
-        builder.addCase(clearCartThunk.fulfilled, (state)=>{
-            state.cart = [];
-        })
-    },
+    // extraReducers(builder) {
+    //     builder.addCase(fetchCartThunk.fulfilled,(state,action)=>{
+    //         state.cart = action.payload
+    //     })
+    //     builder.addCase(purchaseItemThunk.fulfilled, (state,action)=>{
+    //         const newItem = action.payload;
+    //         const itemExists = state.cart.find((item)=> item.id === newItem.id);
+    //         if(itemExists){
+    //             itemExists.quantity++;
+    //             itemExists.totalPrice += itemExists.price;
+    //         }
+    //         else{
+    //             state.cart.push({
+    //                 id:newItem.id,
+    //                 title:newItem.title,
+    //                 image:newItem.image,
+    //                 category:newItem.category,
+    //                 description:newItem.description,
+    //                 price:newItem.price,
+    //                 quantity:1,
+    //                 totalPrice:newItem.price,
+    //             })
+    //         }
+    //     })
+    //     builder.addCase(increaseQuantityThunk.fulfilled, (state,action)=>{
+    //         const itemId = action.payload;
+    //         const itemExists = state.cart.find((item)=> item.id === itemId);
+    //         if(itemExists){
+    //             if(itemExists.quantity > 1 || itemExists.quantity === 1){
+    //                 itemExists.quantity++;
+    //                 itemExists.totalPrice += itemExists.price
+    //             }
+    //         }
+    //     })
+    //     builder.addCase(decreaseQuantityThunk.fulfilled, (state,action)=>{
+    //         const itemId = action.payload;
+    //         const itemExists = state.cart.find((item)=> item.id === itemId);
+    //         if(itemExists){
+    //             if(itemExists.quantity > 1){
+    //                 itemExists.quantity--;
+    //                 itemExists.totalPrice -= itemExists.price;
+    //             }
+    //             else{
+    //                 state.cart = state.cart.filter((item)=> item.id !== itemId);
+    //             }
+    //         }
+    //     })
+    //     builder.addCase(deleteItemThunk.fulfilled, (state,action)=>{
+    //         const targetedItem = action.payload;
+    //         state.cart = state.cart.filter((item)=> item.id !== targetedItem);
+    //     })
+    //     builder.addCase(clearCartThunk.fulfilled, (state)=>{
+    //         state.cart = [];
+    //     })
+    // },
 });
 
 

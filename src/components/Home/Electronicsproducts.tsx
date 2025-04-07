@@ -2,11 +2,12 @@
 import { Button } from "../ui/button";
 // import {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { purchaseItem } from "@/store/features/GlobalState";
 import { toast } from "react-toastify";
 import {useGetElectronicsQuery} from "@/store/features/Apislice";
 import Loadingspinner from "@/lib/Loadingspinner";
+// import {purchaseItemThunk} from "@/store/features/GlobalState";
 
 interface Productsprops{
     id:number;
@@ -24,7 +25,7 @@ const Electronicsproducts = () => {
 
     // const [products,setProducts] = useState<any[]>([]);
     const cartItems = useSelector((state:RootState)=>state.global.cart);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     
 
@@ -41,10 +42,12 @@ const Electronicsproducts = () => {
     // };
     //     responseData();
     // },[]);
+    
 
 // Function to be able to add products to the cart.
     const addProducts = (product:Productsprops) =>{
         dispatch(purchaseItem(product));
+        // dispatch(purchaseItemThunk(product));
         toast.success("Product is added to the cart!");
         console.log(cartItems.length);
         console.log(cartItems);
@@ -64,19 +67,6 @@ const Electronicsproducts = () => {
 
   return (
     <div>
-        {
-            isLoading ? 
-            // <Oval
-            //     visible={true}
-            //     height="80"
-            //     width="80"
-            //     color="#4fa94d"
-            //     ariaLabel="oval-loading"
-            //     wrapperStyle={{}}
-            //     wrapperClass=""
-            // />  
-            ""
-            :
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 px-10 py-20">
         {
             electronicsProducts.map((product: Productsprops)=>(
@@ -95,7 +85,6 @@ const Electronicsproducts = () => {
             ))
         }
         </div>
-        }
     </div>
   )
 }

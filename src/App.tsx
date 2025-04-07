@@ -9,6 +9,7 @@ import Layout from './Layout';
 import Home from "./components/Home/Home";
 import Checkout from "./components/Checkout";
 import Error from './components/Error';
+import Payment from './components/Payment';
 
 const App = () => {
 
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/" element={<Home/>}/>
           <Route path="/checkout" element={<Checkout/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/payment" element={<Payment/>}/>
           <Route path="*" element={<Error/>}/>
         </Route>
       </Routes>

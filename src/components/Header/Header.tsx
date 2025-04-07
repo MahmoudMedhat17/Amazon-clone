@@ -71,22 +71,23 @@ const Header = () => {
                 <SheetTitle className="hidden">Are you absolutely sure?</SheetTitle>
                 <div className="flex flex-col gap-4 items-center">
                   <Link to="/login">
-                  <div className="flex flex-col">
-                    <span className="text-white">Hello, Guest</span>
-                    <span className="font-bold text-white">Sign in</span>
-                  </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-white">Hello, {user ? `${user.email}` : "Guest"}</span>
+                      <span className="font-bold text-white">{user ? "Sign out" : "Sign in"}</span>
+                    </div>
                   </Link>
                   <Link to="/orders">
-                  <div className="flex flex-col">
-                    <span className="text-white">Returns</span>
-                    <span className="text-white font-bold">& Orders</span>
+                    <div className="flex gap-2">
+                      <span className="text-white font-bold">Returns</span>
+                      <span className="text-white font-bold">&</span>
+                      <span className="text-white font-bold">Orders</span>
                   </div>
                   </Link>
                   <Link to="/checkout">
-                  <div className="text-white flex gap-2">
-                    <span className="text-white"><ShoppingCart size={30}/></span>
-                    <span className="font-bold text-white">{totalQuantity}</span>
-                  </div>
+                    <div className="text-white flex gap-2">
+                      <span className="text-white"><ShoppingCart size={30}/></span>
+                      <span className="font-bold text-white">{totalQuantity}</span>
+                    </div>
                   </Link>
                 </div>
               </SheetHeader>
